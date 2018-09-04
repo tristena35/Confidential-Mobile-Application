@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1A1A1D"
+    tools:context=".ConfidentialChatActivity">
+
+    <!--
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/confidential_chat_background"/>
+    -->
+
+    <include
+        android:id="@+id/confidential_chat_app_bar"
+        layout="@layout/confidential_app_bar_layout"/>
+
+        <View style="@style/RedDivider"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/confidential_chat_messages_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/linearLayout"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/confidential_chat_app_bar">
+    </android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:background="@android:color/white"
+        android:orientation="horizontal"
+        android:weightSum="10">
+
+
+        <ImageButton
+            android:id="@+id/confidential_chat_add_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#1A1A1D"
+            android:padding="10dp"
+            app:srcCompat="@drawable/ic_add_white_24dp"/>
+
+
+        <EditText
+            android:id="@+id/confidential_chat_message_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="8"
+            android:background="#1A1A1D"
+            android:ems="10"
+            android:hint="@string/enter_message"
+            android:textColorHint="@color/Red"
+            android:textColor="@color/Red"
+            android:inputType="textCapSentences"
+            android:paddingBottom="12dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="14dp"/>
+
+        <ImageButton
+            android:id="@+id/confidential_chat_send_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#1A1A1D"
+            android:padding="10dp"
+            app:srcCompat="@drawable/ic_send_white_24dp"/>
+    </LinearLayout>
+
+</RelativeLayout>

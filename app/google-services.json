@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1016969440686",
+    "firebase_url": "https://confidentialofficial-ac893.firebaseio.com",
+    "project_id": "confidentialofficial-ac893",
+    "storage_bucket": "confidentialofficial-ac893.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1016969440686:android:2544af54de442a68",
+        "android_client_info": {
+          "package_name": "com.aguilartristen.confidential"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1016969440686-u9qif0aebgr86lsu91cfgcjrl4g6aj3b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aguilartristen.confidential",
+            "certificate_hash": "bc4db34f6b666940cd9b012d05532a1caceff1d4"
+          }
+        },
+        {
+          "client_id": "1016969440686-2l54r9pg5q4l8m9v7jcldmlufb49872o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBle7zp02n5cewZIESm_72MhXeyeXFWDkU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1016969440686-2l54r9pg5q4l8m9v7jcldmlufb49872o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

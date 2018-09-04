@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/main_my_account_btn"
+        android:title="@string/my_account"/>
+    <item
+        android:id="@+id/feed_btn"
+        android:title="@string/feed"/>
+    <item
+        android:id="@+id/make_a_post_btn"
+        android:title="@string/make_a_post"/>
+    <item
+        android:id="@+id/main_all_btn"
+        android:title="@string/all_users"/>
+
+    <item
+        android:id="@+id/search_confidant_btn"
+        android:title="@string/search_for_confidants"/>
+
+    <item
+        android:id="@+id/main_settings_btn"
+        android:title="@string/settings"/>
+    <item
+        android:id="@+id/main_logout_btn"
+        android:title="@string/log_out"/>
+
+</menu>

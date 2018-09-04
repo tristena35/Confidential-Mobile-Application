@@ -1,0 +1,27 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <!-- In order to change color of actionbar, must edit both items below primary and primaryDark-->
+        <item name="colorPrimary">@color/colorTestForActionBar</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <!-- Divider -->
+    <style name="Divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.7dp</item>
+        <item name="android:background">?android:attr/listDivider</item>
+    </style>
+
+    <!-- RedDivider -->
+    <style name="RedDivider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.7dp</item>
+        <item name="android:colorBackground">@color/Red</item>
+        <item name="android:background">?android:attr/listDivider</item>
+    </style>
+
+</resources>

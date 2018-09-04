@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/user_icon_image"
+        android:layout_width="54dp"
+        android:layout_height="51dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/user_icon"/>
+
+    <TextView
+        android:id="@+id/user_single_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/user_icon_image"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@+id/user_icon_image"
+        android:fontFamily="serif"
+        android:text="@string/display_single_name"
+        android:textColor="@color/Black"
+        android:textSize="16sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/user_single_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/user_single_name"
+        android:layout_alignStart="@+id/user_single_name"
+        android:layout_below="@+id/user_single_name"
+        android:layout_marginTop="10dp"
+        android:text="@string/user_default_status"/>
+
+    <TextView
+        android:id="@+id/request_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="15dp"
+        />
+
+    <!--
+
+    <Button
+        android:id="@+id/req_decline_btn"
+        android:layout_width="70dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="15dp"
+        android:background="@color/Red"
+        android:text="Decline"
+        android:textColor="@color/White"/>
+
+    <Button
+        android:id="@+id/req_accept_btn"
+        android:layout_width="70dp"
+        android:layout_height="40dp"
+        android:layout_alignRight="@id/req_decline_btn"
+        android:layout_marginRight="75dp"
+        android:layout_centerVertical="true"
+        android:background="@color/Green"
+        android:text="Accept"
+        android:textColor="@color/White"/>
+
+    -->
+
+</RelativeLayout>
