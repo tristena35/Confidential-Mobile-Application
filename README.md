@@ -40,3 +40,23 @@
 
 ---  
 
+**Search Page**
+<img src = "Confidential%20ScreenShots/Confidential%20Search%20Page.jpg" width="200" height="400">
+
+*On this page, the user can search for other user's usernames in order to pull up their profiles.*
+
+---  
+
+**Chat Page**
+<img src = "Confidential%20ScreenShots/Confidential%20Chat%20Page.jpg" width="200" height="400">
+
+*This is the normal Chat page for users to talk with other users, with the ability to send text messages as well as images.*
+
+---  
+
+**Confidential Chat Page**
+<img src = "Confidential%20ScreenShots/Confidential%20Chat%20Page.jpg" width="200" height="400">
+
+*This is the normal Chat page for users to talk with other users, with the ability to send text messages as well as images.*
+
+---  
