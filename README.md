@@ -55,7 +55,7 @@
 ---  
 
 **Confidential Chat Page**
-<img src = "Confidential%20ScreenShots/Confidential%20Confidential%20Chat%20Page.jpg" width="200" height="400">
+<img src = "Confidential%20ScreenShots/Confidential%20Confidential%20Chat.jpg" width="200" height="400">
 
 *This is the Confidential Chat page for users to talk with other users, in privacy where the message sent will only be readable for a designated amount of time based of the length of the message.*
 
