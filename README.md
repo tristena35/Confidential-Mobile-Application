@@ -29,6 +29,14 @@
 **User's Account Page**
 <img src = "Confidential%20ScreenShots/Confidential%20My%20Account%20Page.jpg" width="200" height="400">
 
-*This is where the user can edit their own profile, set a custom image, as well as a public status, and have the option to go into Confidential Mode, where they would hidden from the rest of the users.*
+*This is where the user can edit their own profile, set a custom image, as well as a public status, and have the option to go into Confidential Mode, where their information would be annonymous to the rest of the users.*
 
 ---  
+
+**All Users Page**
+<img src = "Confidential%20ScreenShots/Confidential%20All%20Users%20Page.jpg" width="200" height="400">
+
+*This page consists of all the users that currently have the app, and allows for users to be clicked on to pull up their profile pages.*
+
+---  
+
