@@ -63,6 +63,9 @@
 
 ## Bug/Issues:
 
-- When a chat is sent through Confidential chat a second time, the timer starts to run before the receiving user has time to open it the message.
+- When a chat is sent through Confidential Chat a second time, the timer starts to run before the receiving user opens the message.
 - The likes and dislikes system has flaws in it on the Feed Page.
 - When one user sends a friend request to another user while they are both on their accounts, it will end up crashing both of their apps.
+- On the main page, under the Chat tab, the latest messages are sometimes out of order and show for the wrong user.
+- The Settings Page is only about 15% done, I still need to add many features.
+- On the Chat Page, the more options button allows the user to delete the conversation but it only deletes the the messages and not the conversation itself.
