@@ -60,3 +60,9 @@
 *This is the Confidential Chat page for users to talk with other users, in privacy where the message sent will only be readable for a designated amount of time based of the length of the message.*
 
 ---  
+
+## Bug/Issues:
+
+- When a chat is sent through Confidential chat a second time, the timer starts to run before the receiving user has time to open it the message.
+- The likes and dislikes system has flaws in it on the Feed Page.
+- When one user sends a friend request to another user while they are both on their accounts, it will end up crashing both of their apps.
