@@ -69,3 +69,4 @@
 - On the main page, under the Chat tab, the latest messages are sometimes out of order and show for the wrong user.
 - The Settings Page is only about 15% done, I still need to add many features.
 - On the Chat Page, the more options button allows the user to delete the conversation but it only deletes the the messages and not the conversation itself.
+- Cloud Notifications using Node.Js have not been fully implemented. Most of the code has been done for it, but still some errors one the Firebase side.
