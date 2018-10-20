@@ -50,7 +50,7 @@
 **Chat Page**
 <img src = "Confidential%20ScreenShots/Confidential%20Chat%20Page.jpg" width="200" height="400">
 
-*This is the normal Chat page for users to talk with other users, with the ability to send text messages as well as images.*
+*This is the normal Chat page for users to talk with other users, with the ability to send text messages as well as images. If both users are on this screen at the same time and one is typing, the other will be notified at the bottom of the message list.*
 
 ---  
 
