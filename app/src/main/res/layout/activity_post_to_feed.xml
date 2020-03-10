@@ -37,7 +37,7 @@
         android:layout_marginTop="60dp"
         android:fontFamily="serif"
         android:gravity="center_horizontal"
-        android:text="Make a Post"
+        android:text="Share a Thought"
         android:textColor="@color/Black"
         android:textSize="30sp"
         android:textStyle="italic"
@@ -69,6 +69,28 @@
         android:textColor="@color/Black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/post_text_box"/>
+
+    <Switch
+        android:id="@+id/switch_public_private"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="56dp"
+        android:fontFamily="serif"
+        android:gravity="left"
+        android:paddingBottom="8dp"
+        android:paddingEnd="26dp"
+        android:paddingStart="26dp"
+        android:paddingTop="8dp"
+        android:text="@string/public_text"
+        android:textColor="@color/Black"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/post_text_box"/>
 
 </android.support.constraint.ConstraintLayout>

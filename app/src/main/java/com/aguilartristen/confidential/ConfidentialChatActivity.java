@@ -100,7 +100,7 @@ public class ConfidentialChatActivity extends AppCompatActivity {
     private String prevActivity;
 
     //Timer TextView
-    private TextView timerText;
+    //private TextView timerText;
 
     //For sending images
     private static final int GALLERY_PICK = 1;
@@ -439,12 +439,18 @@ public class ConfidentialChatActivity extends AppCompatActivity {
                             CountDownTimer messageTimer = new CountDownTimer(10000, 1000) {
 
                                 public void onTick(long millisUntilFinished) {
-                                    timerText = (TextView) findViewById(R.id.confidential_message_timer);
-                                    //Gets time
-                                    String timeForCount = Long.toString(millisUntilFinished / 1000);
-                                    timerText.setText(timeForCount);
-                                    //TODO: Figure out why this is being counted twice
-                                    Log.d("TIMER", "seconds remaining: " + millisUntilFinished / 1000);
+                                    try{
+                                        TextView timerText;
+                                        timerText = (TextView) findViewById(R.id.confidential_message_timer);
+                                        //Gets time
+                                        String timeForCount = Long.toString(millisUntilFinished / 1000);
+                                        timerText.setText(timeForCount);
+                                        //TODO: Figure out why this is being counted twice
+                                        Log.d("TIMER", "seconds remaining: " + millisUntilFinished / 1000);
+                                    }catch(Exception e){
+                                        Log.d("TimerText ERROR", "The above failed within the Confidential Chat Activity");
+                                    }
+
                                 }
 
                                 public void onFinish() {

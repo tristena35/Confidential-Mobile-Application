@@ -11,9 +11,9 @@
     <application
         android:name=".Confidential"
         android:allowBackup="true"
-        android:icon="@mipmap/confidential_logo"
+        android:icon="@mipmap/confidentiallogofinal"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/confidential_logo"
+        android:roundIcon="@mipmap/confidentiallogofinal"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 

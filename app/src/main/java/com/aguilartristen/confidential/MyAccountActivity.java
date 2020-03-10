@@ -1,8 +1,10 @@
 package com.aguilartristen.confidential;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -394,6 +396,41 @@ public class MyAccountActivity extends AppCompatActivity {
                 CropImage.activity()
                         .setGuidelines(CropImageView.Guidelines.ON)
                         .start(MyAccountActivity.this);
+
+            }
+        });
+
+        mDisplayImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                CharSequence[] options = new CharSequence[]{"Upload a Story", "Change Profile Picture"};
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+                builder.setTitle("Profile Options");
+                builder.setItems(options, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        //Click Event For Each Item
+                        //In future, it's smart to add a switch statement when dealing with multiple items
+                        if(which == 0){ //Upload a Story
+
+                            //Learn how to make a story
+
+                        }else if(which == 1){ //Send Message
+
+                            // start picker to get image for cropping and then use the image in cropping activity
+                            CropImage.activity()
+                                    .setGuidelines(CropImageView.Guidelines.ON)
+                                    .start(MyAccountActivity.this);
+
+                        }
+
+                    }
+                });
+
+                builder.show();
 
             }
         });

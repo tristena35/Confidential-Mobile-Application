@@ -29,28 +29,29 @@
         android:id="@+id/my_account_change_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:width="250dp"
         android:background="@drawable/rounded_button_red"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:text="@string/change_image"
+        android:text="@string/change_profile_picture"
         android:textColor="@color/White"
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/my_account_change_status"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        />
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <Button
         android:id="@+id/my_account_change_status"
         android:layout_width="wrap_content"
         android:layout_height="45dp"
-        android:layout_marginBottom="30dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="30dp"
+        android:width="250dp"
         android:background="@drawable/rounded_button_white"
         android:paddingLeft="10dp"
         android:paddingRight="14dp"
@@ -59,8 +60,7 @@
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        />
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
         android:id="@+id/my_account_display_name"

@@ -56,6 +56,9 @@ public class ProfileActivity extends AppCompatActivity {
     //Button
     private Button mProfileDeclineReqBtn;
 
+    //Button
+    private Button mProfileChatBtn;
+
     //Refers to the Database of the chosen user
     private DatabaseReference mUserDatabase;
     //Database object for recording friend requests
@@ -130,6 +133,7 @@ public class ProfileActivity extends AppCompatActivity {
         mProfileFriends = (TextView) findViewById(R.id.profile_numberOfFriends);
         mSendFriendRequestBtn = (Button) findViewById(R.id.profile_send_req_btn);
         mProfileDeclineReqBtn = (Button) findViewById(R.id.profile_decline_req_btn);
+        mProfileChatBtn = (Button) findViewById(R.id.profile_chat_btn);
 
         //Putting there name on the Top
         mProfileName = (TextView) findViewById(R.id.custom_bar_profile_page_username);
@@ -147,6 +151,37 @@ public class ProfileActivity extends AppCompatActivity {
         mProgressDialog.setMessage("Please wait while we load the user's information");
         mProgressDialog.setCanceledOnTouchOutside(false);
         mProgressDialog.show();
+
+
+        /*WHEN USER CLICKS ON CHAT BUTTON*/
+
+        mProfileChatBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mUserDatabase.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        final String userName = dataSnapshot.child("name").getValue().toString();
+                        final String userThumbImage = dataSnapshot.child("thumb_image").getValue().toString();
+
+                        Intent chat_Intent = new Intent(getApplicationContext(), ChatActivity.class);
+                        chat_Intent.putExtra("user_id", user_Id);
+                        chat_Intent.putExtra("user_name", userName);
+                        chat_Intent.putExtra("top_image", userThumbImage);
+                        startActivity(chat_Intent);
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+            }
+        });
 
         //Getting total number of friends
         mFriendDatabase.child(user_Id).addListenerForSingleValueEvent(new ValueEventListener() {

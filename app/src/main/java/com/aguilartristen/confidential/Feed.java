@@ -13,20 +13,24 @@ public class Feed {
     public String message;
     public String thumb_image;
     public String time_posted;
+    public String date_posted;
     public long timestamp;
+    private String privacy;
 
     //Without this default constructor, app may crash
     public Feed(){
     }
 
-    public Feed(String name, String message, int likes, int dislikes, String thumb_image, String time_posted, long timestamp) {
+    public Feed(String name, String message, int likes, int dislikes, String thumb_image, String time_posted, long timestamp, String privacy) {
         this.name = name;
         this.message = message;
         this.likes = likes;
         this.dislikes = dislikes;
         this.thumb_image = thumb_image;
         this.time_posted = time_posted;
+        this.date_posted = date_posted;
         this.timestamp = timestamp;
+        this.privacy = privacy;
     }
 
     public String getName() {
@@ -77,6 +81,10 @@ public class Feed {
         this.time_posted = time_posted;
     }
 
+    public String getDatePosted(){return date_posted;}
+
+    public void setDatePosted(String date_posted){this.date_posted = time_posted;}
+
     public long getTimestamp(){
         return timestamp;
     }
@@ -84,5 +92,9 @@ public class Feed {
     public void setTimestamp(long timestamp){
         this.timestamp = timestamp;
     }
+
+    public String getPrivacyStatus(){return privacy;}
+
+    public void setPrivacyStatus(String privacy){this.privacy = privacy;}
 
 }

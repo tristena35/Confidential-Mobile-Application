@@ -10,6 +10,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,16 +28,24 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FeedActivity extends AppCompatActivity {
 
     //This is called the root ref because we are going to use this one reference for the whole database.
-    private DatabaseReference mFeedDatabase;
+    private DatabaseReference mFeedDatabase, mFeedPostListLikesDatabaseRef, mRootRef;
 
     //Reference to Users
     private DatabaseReference mUsersRef;
@@ -84,6 +93,9 @@ public class FeedActivity extends AppCompatActivity {
     //Adapter
     FirebaseRecyclerAdapter firebaseRecyclerAdapter;
 
+    private long currentPostLikes = 0, currentPostDislikes = 0;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,11 +112,14 @@ public class FeedActivity extends AppCompatActivity {
         actionBar.setCustomView(action_bar_view);
 
         mAuth = FirebaseAuth.getInstance();
+        //Gets current Users ID
         mCurrentUserID = mAuth.getCurrentUser().getUid();
 
         //Getting Refs
         mUsersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mCurrentUserID);
         mFeedDatabase = FirebaseDatabase.getInstance().getReference().child("Feed_page");
+        mFeedPostListLikesDatabaseRef = FirebaseDatabase.getInstance().getReference();
+        mRootRef = FirebaseDatabase.getInstance().getReference();
 
         //Like and Dislike button on individual Posts
         mLikeButton = (ImageButton)findViewById(R.id.feed_individual_likes_image);
@@ -118,6 +133,24 @@ public class FeedActivity extends AppCompatActivity {
 
         DividerItemDecoration itemDecor = new DividerItemDecoration(FeedActivity.this, DividerItemDecoration.VERTICAL);
         mFeedList.addItemDecoration(itemDecor);
+
+        /*Easiest way to loop through a child of a databaseref:
+
+
+        FirebaseDatabase.getInstance().getReference().child("users")
+            .addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        User user = snapshot.getValue(User.class);
+                        System.out.println(user.email);
+                    }
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
+         */
 
 
         FirebaseRecyclerOptions<Feed> options =
@@ -142,13 +175,47 @@ public class FeedActivity extends AppCompatActivity {
                 //Get Key of other user
                 final String user_id = getRef(position).getKey();
 
-                feedUserViewHolder.setFeedUserDisplayName(post.getName());
-                feedUserViewHolder.setFeedUserMessage(post.getMessage());
-                feedUserViewHolder.setFeedUserTimePosted(post.getTimePosted());
-                feedUserViewHolder.setFeedUserImage(post.getThumbImage(), getApplicationContext());
-                feedUserViewHolder.setFeedUserLikes(post.getLikesCount());
-                feedUserViewHolder.setFeedUserDislikes(post.getDislikesCount());
+                final String mCurrentUserID = mAuth.getCurrentUser().getUid();
 
+                mFeedDatabase.child(user_id).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        if(dataSnapshot.hasChild("privacy") &&
+                                dataSnapshot.child("privacy")
+                                        .getValue().toString().equals("public")) {
+
+                            feedUserViewHolder.setFeedUserDisplayName(post.getName());
+                            feedUserViewHolder.setFeedUserMessage(post.getMessage());
+                            feedUserViewHolder.setFeedUserTimePosted(post.getTimePosted());
+                            feedUserViewHolder.setFeedUserDatePosted(post.getDatePosted());
+                            feedUserViewHolder.setFeedUserImage(post.getThumbImage(), getApplicationContext());
+                            feedUserViewHolder.setFeedUserLikes(post.getLikesCount());
+                            feedUserViewHolder.setFeedUserDislikes(post.getDislikesCount());
+
+                        }else if(dataSnapshot.hasChild("privacy") &&
+                                dataSnapshot.child("privacy")
+                                        .getValue().toString().equals("private")){
+
+                            feedUserViewHolder.setFeedUserDisplayName("Anonymous");
+                            feedUserViewHolder.setFeedUserMessage("Confidential");
+                            feedUserViewHolder.setFeedUserImage(String.valueOf(R.drawable.confidential_logo),getApplicationContext());
+
+                        }else{
+
+                            Log.d("USERS_ERROR", "Previous if statements failed");
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                        Log.d("CONFIDENTIAL_MODE", databaseError.getMessage());
+
+                    }
+                });
 
 
                 //Clicking on one of the posts should enlarge it
@@ -168,15 +235,57 @@ public class FeedActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
-                        Toast.makeText(FeedActivity.this,"LIKES for " + user_id,Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(FeedActivity.this,"LIKES for " + user_id,Toast.LENGTH_SHORT).show();
 
-                        mFeedDatabase.child(user_id).addValueEventListener(new ValueEventListener() {
+                        mFeedPostListLikesDatabaseRef.child("Likes").child(user_id).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                long numberOfCurrentLikes = (long) dataSnapshot.child("likes").getValue();
+                                //Map for all people that liked post
+                                //First their key, inside ours (because we liked)
+                                String user_post_liked_ref = "Feed_post_likes/Likes/" + user_id + "/" + mCurrentUserID;
 
-                                newNumberOfCurrentLikes = numberOfCurrentLikes + 1;
+                                //GETS CURRENT TIME IN good format
+                                SimpleDateFormat df = new SimpleDateFormat("hh:mm a");
+                                String currentTime = df.format(Calendar.getInstance().getTime());
+
+                                Date c = Calendar.getInstance().getTime();
+                                //SimpleDateFormat date = new SimpleDateFormat("MMMM dd, yyyy hh:mm a");
+                                SimpleDateFormat date = new SimpleDateFormat("MM/dd/yyyy");
+                                String getDateNow = date.format(c);
+
+                                //Map for like information
+                                Map messageMap = new HashMap();
+                                messageMap.put("who_posted", user_id);
+                                messageMap.put("time", ServerValue.TIMESTAMP);
+                                messageMap.put("who_liked", mCurrentUserID);
+                                messageMap.put("time_liked", currentTime.toString());
+                                messageMap.put("date_liked", getDateNow);
+
+                                Map messageUserMap = new HashMap();
+                                messageUserMap.put(user_post_liked_ref, messageMap);
+
+                                mFeedPostListLikesDatabaseRef.updateChildren(messageUserMap, new DatabaseReference.CompletionListener() {
+                                    @Override
+                                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                                        if (databaseError != null) {
+
+                                            Log.d("POST_LIKED_LOG", databaseError.getMessage().toString());
+
+                                        } else {
+
+                                            /*
+                                            After message is sent SUCCESSFULLY, message should clear from
+                                            Should not clear if message did not go through cause then they
+                                            would have to continue retyping in message
+                                             */
+                                            Toast.makeText(FeedActivity.this,"LIKES for " + user_id, Toast.LENGTH_SHORT).show();
+
+                                        }
+
+                                    }
+                                });
 
                             }
 
@@ -186,7 +295,23 @@ public class FeedActivity extends AppCompatActivity {
                             }
                         });
 
-                        mFeedDatabase.child(user_id).child("likes").setValue(newNumberOfCurrentLikes);
+                        /*
+                        HOW DATA SHOULD LOOK:
+
+                        |Feed Post Likes|
+                            -User Key (Person who posted)
+                                -random user Key (random person who liked the post
+                                -random user Key
+                                    date_liked...
+                                    time...
+                                    who_liked...
+                                    ....
+                                ....
+                            -User2 Key
+                                -random user Key
+                                -random user Key
+                                ....
+                         */
 
                     }
                 });
@@ -197,16 +322,55 @@ public class FeedActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
-                        Toast.makeText(FeedActivity.this,"DISLIKES for " + user_id,Toast.LENGTH_SHORT).show();
-
-                        mFeedDatabase.child(user_id).addValueEventListener(new ValueEventListener() {
+                        mFeedPostListLikesDatabaseRef.child("Dislikes").child(user_id).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                long numberOfCurrentDislikes = (long) dataSnapshot.child("dislikes").getValue();
+                                //Map for all people that liked post
+                                //First their key, inside ours (because we liked)
+                                String user_post_disliked_ref = "Feed_post_likes/Dislikes/" + user_id + "/" + mCurrentUserID;
 
-                                newNumberOfCurrentDislikes = numberOfCurrentDislikes + 1;
+                                //GETS CURRENT TIME IN good format
+                                SimpleDateFormat df = new SimpleDateFormat("hh:mm a");
+                                String currentTime = df.format(Calendar.getInstance().getTime());
 
+                                Date c = Calendar.getInstance().getTime();
+                                //SimpleDateFormat date = new SimpleDateFormat("MMMM dd, yyyy hh:mm a");
+                                SimpleDateFormat date = new SimpleDateFormat("MM/dd/yyyy");
+                                String getDateNow = date.format(c);
+
+                                //Map for like information
+                                Map messageMap = new HashMap();
+                                messageMap.put("who_posted", user_id);
+                                messageMap.put("time", ServerValue.TIMESTAMP);
+                                messageMap.put("who_disliked", mCurrentUserID);
+                                messageMap.put("time_disliked", currentTime.toString());
+                                messageMap.put("date_disliked", getDateNow);
+
+                                Map messageUserMap = new HashMap();
+                                messageUserMap.put(user_post_disliked_ref, messageMap);
+
+                                mFeedPostListLikesDatabaseRef.updateChildren(messageUserMap, new DatabaseReference.CompletionListener() {
+                                    @Override
+                                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                                        if (databaseError != null) {
+
+                                            Log.d("POST_LIKED_LOG", databaseError.getMessage().toString());
+
+                                        } else {
+
+                                            /*
+                                            After message is sent SUCCESSFULLY, message should clear from
+                                            Should not clear if message did not go through cause then they
+                                            would have to continue retyping in message
+                                             */
+                                            Toast.makeText(FeedActivity.this, "DISLIKES for " + user_id, Toast.LENGTH_SHORT).show();
+
+                                        }
+
+                                    }
+                                });
                             }
 
                             @Override
@@ -214,11 +378,32 @@ public class FeedActivity extends AppCompatActivity {
 
                             }
                         });
-
-                        mFeedDatabase.child(user_id).child("dislikes").setValue(newNumberOfCurrentDislikes);
-
                     }
                 });
+
+
+                //Update all Posts likes
+                mRootRef.child("Feed_post_likes").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        currentPostLikes = dataSnapshot.child("Likes").child(user_id).getChildrenCount();
+                        currentPostDislikes = dataSnapshot.child("Dislikes").child(user_id).getChildrenCount();
+                        mRootRef.child("Feed_page").child(user_id).child("likes").setValue(currentPostLikes);
+                        mRootRef.child("Feed_page").child(user_id).child("dislikes").setValue(currentPostDislikes);
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                        Log.d("Feed_Post_likes", databaseError.getMessage());
+
+                    }
+
+                });
+
+
 
             }
 
@@ -285,7 +470,15 @@ class FeedViewHolder extends RecyclerView.ViewHolder{
 
         //Sets the Feed Message
         TextView messageView = (TextView) mView.findViewById(R.id.feed_user_message);
-        messageView.setText(message);
+        messageView.setText('"' + message + '"');
+
+    }
+
+    public void setFeedUserDatePosted(String datePosted){
+
+        //Sets Date Posted
+        TextView datePostedView = (TextView) mView.findViewById(R.id.feed_date_posted);
+        datePostedView.setText(datePosted);
 
     }
 

@@ -35,6 +35,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.security.spec.ECField;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
@@ -172,13 +174,19 @@ public class RequestFragment extends Fragment {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                String date = dataSnapshot.child(mCurrent_user_id).child("date").getValue().toString();
-                                holder.setRequestDate(date);
+                                try{
+                                    String date = dataSnapshot.child(mCurrent_user_id).child("date").getValue().toString();
+                                    holder.setRequestDate(date);
+                                }catch(Exception e){
+                                    Log.e("Friend Request", e.toString());
+                                }
 
                             }
 
                             @Override
                             public void onCancelled(DatabaseError databaseError) {
+
+                                Log.e("Friend Request", "ERROR WITH ADDING FRIEND");
 
                             }
                         });

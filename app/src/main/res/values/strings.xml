@@ -57,7 +57,7 @@
     <string name="decline_friend_request">DECLINE FRIEND REQUEST</string>
     <string name="security_pin">Pin</string>
     <string name="change_status">CHANGE STATUS</string>
-    <string name="change_image">CHANGE IMAGE</string>
+    <string name="change_profile_picture">CHANGE PROFILE PICTURE</string>
     <string name="send_request">Send Request</string>
     <string name="decline_request">Decline Request</string>
     <string name="sign_in">Sign In</string>
@@ -90,4 +90,5 @@
     <string name="make_a_post">Make a Post</string>
     <string name="feed">Feed</string>
     <string name="no_feed_activity_at_the_moment">No Feed Activity at the Moment</string>
+    <string name="public_text">PUBLIC</string>
 </resources>

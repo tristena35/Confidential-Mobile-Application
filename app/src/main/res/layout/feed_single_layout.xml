@@ -7,6 +7,16 @@
                                              android:layout_height="wrap_content"
                                              android:padding="4dp">
 
+    <TextView
+        android:id="@+id/feed_date_posted"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="mm/dd/yyyy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/feed_user_image"
         android:layout_width="54dp"
@@ -53,8 +63,8 @@
 
     <ImageButton
         android:id="@+id/feed_individual_likes_image"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:alpha="0.5"
@@ -64,8 +74,8 @@
 
     <ImageButton
         android:id="@+id/feed_individual_dislikes_image"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:alpha="0.5"
@@ -77,18 +87,19 @@
         android:id="@+id/feed_time_posted"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
         android:text="00:00"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@+id/feed_date_posted"/>
 
     <TextView
         android:id="@+id/feed_likes_number"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="22dp"
         android:text="@string/_0"
         app:layout_constraintStart_toEndOf="@id/feed_individual_likes_image"
         app:layout_constraintTop_toTopOf="parent"
@@ -99,7 +110,7 @@
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="22dp"
         android:text="@string/_0"
         app:layout_constraintStart_toEndOf="@+id/feed_individual_dislikes_image"
         app:layout_constraintTop_toTopOf="parent"/>
