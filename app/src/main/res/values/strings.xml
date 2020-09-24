@@ -5,11 +5,11 @@
     <string name="username">Username</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
-    <string name="create_account">Create Account</string>
+    <string name="create_account">Sign Up</string>
     <string name="log_out">Log Out</string>
     <string name="login">Login</string>
     <string name="login_to_your_account">Login to your account</string>
-    <string name="your_email">Your Email</string>
+    <string name="your_email">Email</string>
     <string name="all_users">All Users</string>
     <string name="account_settings">Account Settings</string>
     <string name="create_a_new_account">Create a New Account</string>

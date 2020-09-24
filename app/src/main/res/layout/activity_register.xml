@@ -7,45 +7,69 @@
     android:layout_height="match_parent"
     tools:context="com.aguilartristen.confidential.RegisterActivity">
 
-    <include
-        android:id="@+id/register_toolbar"
-        layout="@layout/app_bar_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
-
     <!--Add a LOGO-->
+
+    <ImageView
+        android:id="@+id/reg_moduleBackground"
+        android:layout_width="373dp"
+        android:layout_height="518dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_weight="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reg_textHeader"
+        app:srcCompat="@drawable/rounded_button_white" />
+
+    <TextView
+        android:id="@+id/reg_textHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:fadingEdge="horizontal"
+        android:fadingEdgeLength="40dp"
+        android:fontFamily="serif"
+        android:gravity="center_vertical"
+        android:text="@string/confidential"
+        android:textAllCaps="true"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textColor="@color/Red"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/reg_display_name"
-        android:layout_width="352dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_width="0dp"
+        android:layout_height="82dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         app:errorEnabled="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register_toolbar">
+        app:layout_constraintEnd_toEndOf="@+id/reg_moduleBackground"
+        app:layout_constraintStart_toEndOf="@+id/reg_userIcon"
+        app:layout_constraintTop_toTopOf="@+id/reg_moduleBackground">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/reg_display_name_editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/username"
-            android:maxLength="12"/>
+            android:maxLength="12" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/reg_email"
-        android:layout_width="352dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         app:errorEnabled="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/reg_moduleBackground"
+        app:layout_constraintStart_toEndOf="@+id/reg_emailIcon"
         app:layout_constraintTop_toBottomOf="@+id/reg_display_name">
 
         <android.support.design.widget.TextInputEditText
@@ -53,19 +77,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/email"
-            android:inputType="textEmailAddress"/>
+            android:inputType="textEmailAddress" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/reg_password"
-        android:layout_width="352dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_width="0dp"
+        android:layout_height="95dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         app:errorEnabled="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/reg_moduleBackground"
+        app:layout_constraintStart_toEndOf="@+id/reg_passwordIcon"
         app:layout_constraintTop_toBottomOf="@+id/reg_email">
 
         <android.support.design.widget.TextInputEditText
@@ -73,19 +96,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/password"
-            android:inputType="textPassword"/>
+            android:inputType="textPassword" />
+
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/reg_confirm_password"
-        android:layout_width="352dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="16dp"
         app:errorEnabled="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/reg_moduleBackground"
+        app:layout_constraintStart_toStartOf="@+id/reg_password"
         app:layout_constraintTop_toBottomOf="@+id/reg_password">
 
         <android.support.design.widget.TextInputEditText
@@ -93,19 +115,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/confirm_password"
-            android:inputType="textPassword"/>
+            android:inputType="textPassword" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/reg_pin"
-        android:layout_width="352dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_width="0dp"
+        android:layout_height="82dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         app:errorEnabled="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/reg_moduleBackground"
+        app:layout_constraintStart_toEndOf="@+id/reg_pinIcon"
         app:layout_constraintTop_toBottomOf="@+id/reg_confirm_password">
 
         <android.support.design.widget.TextInputEditText
@@ -114,26 +135,65 @@
             android:layout_height="wrap_content"
             android:hint="@string/security_pin"
             android:inputType="numberPassword"
-            android:maxLength="4"/>
+            android:maxLength="4" />
     </android.support.design.widget.TextInputLayout>
 
     <Button
         android:id="@+id/reg_create_btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/rounded_button_red"
         android:backgroundTint="@color/colorPrimary"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:text="@string/create_account"
         android:textColor="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/reg_pin"
-        app:layout_constraintVertical_bias="1.0"/>
+        app:layout_constraintBottom_toBottomOf="@+id/reg_moduleBackground"
+        app:layout_constraintEnd_toEndOf="@+id/reg_moduleBackground"
+        app:layout_constraintStart_toStartOf="@+id/reg_moduleBackground" />
+
+    <ImageView
+        android:id="@+id/reg_userIcon"
+        android:layout_width="34dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/reg_display_name"
+        app:layout_constraintStart_toStartOf="@+id/reg_moduleBackground"
+        app:layout_constraintTop_toTopOf="@+id/reg_display_name"
+        app:srcCompat="@drawable/user_icon2" />
+
+    <ImageView
+        android:id="@+id/reg_emailIcon"
+        android:layout_width="34dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/reg_email"
+        app:layout_constraintStart_toStartOf="@+id/reg_moduleBackground"
+        app:layout_constraintTop_toTopOf="@+id/reg_email"
+        app:srcCompat="@drawable/email_icon" />
+
+    <ImageView
+        android:id="@+id/reg_passwordIcon"
+        android:layout_width="34dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/reg_confirm_password"
+        app:layout_constraintStart_toStartOf="@+id/reg_moduleBackground"
+        app:layout_constraintTop_toTopOf="@+id/reg_password"
+        app:srcCompat="@drawable/password_icon" />
+
+    <ImageView
+        android:id="@+id/reg_pinIcon"
+        android:layout_width="34dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/reg_pin"
+        app:layout_constraintStart_toStartOf="@+id/reg_moduleBackground"
+        app:layout_constraintTop_toTopOf="@+id/reg_pin"
+        app:srcCompat="@drawable/baseline_lock_open_black_36dp" />
 
 
 </android.support.constraint.ConstraintLayout>

@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Confidential.iml" filepath="$PROJECT_DIR$/Confidential.iml" group="Confidential" />
+      <module fileurl="file://$PROJECT_DIR$/Confidential-Mobile-Application.iml" filepath="$PROJECT_DIR$/Confidential-Mobile-Application.iml" group="Confidential-Mobile-Application" />
+      <module fileurl="file://$PROJECT_DIR$/app/Confidential-Mobile-Application-app.iml" filepath="$PROJECT_DIR$/app/Confidential-Mobile-Application-app.iml" group="Confidential-Mobile-Application/app" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="Confidential/app" />
     </modules>
   </component>

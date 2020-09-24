@@ -3,6 +3,7 @@ package com.aguilartristen.confidential;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
@@ -14,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -26,9 +28,12 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 public class LoginActivity extends AppCompatActivity {
+
+    private TextView mSignUp;
 
     private TextInputLayout mLoginEmail;
     private TextInputLayout mLoginPassword;
@@ -51,27 +56,13 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        //Toolbar Set
-        mToolbar = (Toolbar) findViewById(R.id.login_toolbar);
-        setSupportActionBar(mToolbar);
-        //getSupportActionBar().setTitle("Login");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        //This is where we inflate our layout as of now with the new one with the image
-        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View action_bar_view = inflater.inflate(R.layout.login_custom_bar, null);
-
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setCustomView(action_bar_view);
-
-
         mLoginProgress = new ProgressDialog(this);
 
         mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
 
-        //Android Fields
+        mSignUp = (TextView)findViewById(R.id.login_signUp2);
 
+        //Android Fields
         mLoginEmail = (TextInputLayout) findViewById(R.id.login_email);
         mLoginPassword = (TextInputLayout) findViewById(R.id.login_password);
         mLoginButton = (Button) findViewById(R.id.login_btn);
@@ -100,6 +91,14 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        mSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mSignUp.setTextColor(Color.parseColor("#8B0000"));
+                sendToSignUp();
+            }
+        });
+
     }
 
     //---------- LOGIN FEATURE ----------//
@@ -108,7 +107,6 @@ public class LoginActivity extends AppCompatActivity {
         mAuth.signInWithEmailAndPassword(loginEmail,loginPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-
                 if(task.isSuccessful()){
                     //Takes away Progress Dialog since your signed in
                     mLoginProgress.dismiss();
@@ -136,16 +134,12 @@ public class LoginActivity extends AppCompatActivity {
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-
                             Toast.makeText(LoginActivity.this,"Failed to send a token when logging in",Toast.LENGTH_SHORT).show();
-
                         }
                     });
-
-                }else{
-
+                }
+                else {
                     String error = "";
-
                     try {
                         throw task.getException();
                     } catch (FirebaseAuthInvalidUserException e) {
@@ -156,10 +150,8 @@ public class LoginActivity extends AppCompatActivity {
                         error = "Default error!";
                         e.printStackTrace();
                     }
-
                     mLoginProgress.hide();
                     Toast.makeText(LoginActivity.this, error, Toast.LENGTH_LONG).show();
-
                 }
             }
         });
@@ -174,6 +166,12 @@ public class LoginActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void sendToSignUp() {
+        Intent startIntent = new Intent(LoginActivity.this, RegisterActivity.class);
+        startActivity(startIntent);
+        mSignUp.setTextColor(Color.parseColor("red"));
     }
 
 }

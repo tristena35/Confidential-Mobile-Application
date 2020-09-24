@@ -65,23 +65,6 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        //Toolbar Set
-        mToolbar = (Toolbar) findViewById(R.id.register_toolbar);
-        setSupportActionBar(mToolbar);
-        //getSupportActionBar().setTitle("Welcome new Confidant");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        //This is where we inflate our layout as of now with the new one with the image
-        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View action_bar_view = inflater.inflate(R.layout.register_custom_bar, null);
-
-        ActionBar actionBar = getSupportActionBar();
-
-        actionBar.setDisplayShowCustomEnabled(true);
-
-        actionBar.setCustomView(action_bar_view);
-
-
         //Android Fields
         mDisplayName = (TextInputLayout) findViewById(R.id.reg_display_name);
         mEmail = (TextInputLayout) findViewById(R.id.reg_email);
@@ -133,7 +116,7 @@ public class RegisterActivity extends AppCompatActivity {
                     if(counter != 0){//INVALID
                         USERNAME_STATE = 0;
                         mDisplayName
-                                .setError("Invalid Username (Must be at least 4 characters long | Special Characters not allowed)");
+                                .setError("At least 4 characters long | No special characters");
                     }else{ //VALID
                         USERNAME_STATE = 1;
                         mDisplayName.setError("");
