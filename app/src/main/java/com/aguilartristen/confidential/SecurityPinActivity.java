@@ -131,7 +131,6 @@ public class SecurityPinActivity extends AppCompatActivity {
                 Intent fingerprintScanner = new Intent(SecurityPinActivity.this,FingerprintScannerActivity.class);
 
                 fingerprintScanner.putExtra("user_name", currentUserName);
-                //fingerprintScanner.putExtra("thumb_image", currentUserImage);
 
                 startActivity(fingerprintScanner);
 
@@ -159,21 +158,18 @@ public class SecurityPinActivity extends AppCompatActivity {
                 mUsersPinRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-
                         String actualPin = dataSnapshot.getValue().toString();
-
                         //If the pin is correct, go to MainActivity
                         if(pinEntered.equals(actualPin)) {
                             sendToMain();
                             //Toast.makeText(SecurityPinActivity.this,"Welcome Confidant",Toast.LENGTH_SHORT).show();
-                        }else{
+                        }
+                        else {
                             mPinBox.setText("");
                             Toast.makeText(SecurityPinActivity.this,"Invalid Pin", Toast.LENGTH_SHORT).show();
                             Log.d("PINS", "Pin from Firebase " + actualPin);
                         }
-
                     }
-
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
 
@@ -181,7 +177,6 @@ public class SecurityPinActivity extends AppCompatActivity {
 
                     }
                 });
-
             }
         });
 
@@ -195,15 +190,10 @@ public class SecurityPinActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         if(currentUser == null){
-
             sendToStart();
-
         } else {
-
             Log.d("UID",currentUser.getUid());
-
         }
-
     }
 
 

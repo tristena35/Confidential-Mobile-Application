@@ -3,6 +3,7 @@ package com.aguilartristen.confidential;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
@@ -17,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -32,6 +34,9 @@ import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
 
+    //TextViews
+    private TextView mSignIn;
+
     //TextInputLayouts Entered
     private TextInputLayout mDisplayName;
     private TextInputLayout mEmail;
@@ -41,7 +46,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     //Button to Register
     private Button mRegisterButton;
-
 
     //Progress Bar
     private ProgressDialog mRegProgress;
@@ -65,6 +69,9 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        //TextView for Sign In Page
+        mSignIn = (TextView)findViewById(R.id.reg_haveAccount2);
+
         //Android Fields
         mDisplayName = (TextInputLayout) findViewById(R.id.reg_display_name);
         mEmail = (TextInputLayout) findViewById(R.id.reg_email);
@@ -79,7 +86,12 @@ public class RegisterActivity extends AppCompatActivity {
         EditText mEmailWatcher = (EditText)findViewById(R.id.reg_email_editText);
         EditText mPinWatcher = (EditText)findViewById(R.id.reg_pin_editText);
 
-
+        mSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendToSignIn();
+            }
+        });
 
         /*
                 HELPING USER VALIDATE USERNAME
@@ -384,7 +396,6 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-
                 if(USERNAME_STATE == 1 && EMAIL_STATE == 1 && PASSWORD_STATE == 1
                         && CONFIRM_PASSWORD_STATE == 1 && PIN_STATE == 1){ //All fields success
 
@@ -401,16 +412,11 @@ public class RegisterActivity extends AppCompatActivity {
                     mRegProgress.show();
 
                     register_user(display_name, email, password, pin);
-
                 }
                 else{ //If there was an error
-
                     Toast.makeText(RegisterActivity.this,
                             "Make sure all fields are filled in correctly", Toast.LENGTH_SHORT).show();
-
                 }
-
-
             }
         });
 
@@ -489,6 +495,12 @@ public class RegisterActivity extends AppCompatActivity {
                 (c < 48 || c > 57) && 	//not a digit
                 (c < 65 || c > 90) && 	//not an uppercase alphabet
                 (c < 97 || c > 122);	//not a lowercase alphabet
+    }
+
+    private void sendToSignIn() {
+        Intent startIntent = new Intent(RegisterActivity.this, LoginActivity.class);
+        startActivity(startIntent);
+        finish();
     }
 
 }

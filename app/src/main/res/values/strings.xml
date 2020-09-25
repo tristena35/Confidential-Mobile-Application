@@ -64,7 +64,7 @@
     <string name="log_in">Log In</string>
     <string name="all_users_actionbar">All Users</string>
     <string name="enter_pin_security">ENTER PIN</string>
-    <string name="log_out_security">Log Out</string>
+    <string name="log_out_security">Sign Out</string>
     <string name="ok">OK</string>
     <string name="confidants">Confidants</string>
     <string name="confidential_mode">CONFIDENTIAL MODE</string>

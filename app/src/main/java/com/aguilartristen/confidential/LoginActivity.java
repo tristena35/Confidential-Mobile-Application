@@ -94,7 +94,6 @@ public class LoginActivity extends AppCompatActivity {
         mSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mSignUp.setTextColor(Color.parseColor("#8B0000"));
                 sendToSignUp();
             }
         });
@@ -171,7 +170,7 @@ public class LoginActivity extends AppCompatActivity {
     private void sendToSignUp() {
         Intent startIntent = new Intent(LoginActivity.this, RegisterActivity.class);
         startActivity(startIntent);
-        mSignUp.setTextColor(Color.parseColor("red"));
+        finish();
     }
 
 }

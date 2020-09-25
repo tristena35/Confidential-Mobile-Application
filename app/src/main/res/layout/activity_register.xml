@@ -12,11 +12,11 @@
     <ImageView
         android:id="@+id/reg_moduleBackground"
         android:layout_width="373dp"
-        android:layout_height="518dp"
+        android:layout_height="550dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
         android:layout_weight="1"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/reg_textHeader"
@@ -26,7 +26,7 @@
         android:id="@+id/reg_textHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="24dp"
         android:fadingEdge="horizontal"
         android:fadingEdgeLength="40dp"
         android:fontFamily="serif"
@@ -194,6 +194,25 @@
         app:layout_constraintStart_toStartOf="@+id/reg_moduleBackground"
         app:layout_constraintTop_toTopOf="@+id/reg_pin"
         app:srcCompat="@drawable/baseline_lock_open_black_36dp" />
+
+    <TextView
+        android:id="@+id/reg_haveAccount1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="Already have an account?"
+        app:layout_constraintEnd_toStartOf="@+id/reg_haveAccount2"
+        app:layout_constraintTop_toBottomOf="@+id/reg_pin" />
+
+    <TextView
+        android:id="@+id/reg_haveAccount2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign In"
+        android:clickable="true"
+        android:textColor="#FF0000"
+        app:layout_constraintEnd_toEndOf="@+id/reg_pin"
+        app:layout_constraintTop_toBottomOf="@+id/reg_pin" />
 
 
 </android.support.constraint.ConstraintLayout>

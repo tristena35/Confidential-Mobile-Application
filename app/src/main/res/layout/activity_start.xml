@@ -36,11 +36,11 @@
 
     <Button
         android:id="@+id/reg_btn"
-        android:layout_width="200dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
         android:background="@drawable/rounded_button_white"
         android:backgroundTint="@color/White"
         android:text="@string/become_a_confidant"
@@ -48,21 +48,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/log_in_btn"/>
+        app:layout_constraintTop_toBottomOf="@+id/log_in_btn" />
 
     <Button
         android:id="@+id/log_in_btn"
-        android:layout_width="200dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="90dp"
+        android:layout_marginEnd="32dp"
         android:background="@drawable/rounded_button_red"
         android:backgroundTint="@color/Red"
         android:text="@string/log_in"
         android:textColor="@color/White"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/reg_textHeader"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/reg_textHeader" />
 </android.support.constraint.ConstraintLayout>
