@@ -34,7 +34,7 @@ import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    //TextViews
+    // TextViews
     private TextView mSignIn;
 
     //TextInputLayouts Entered
@@ -44,20 +44,17 @@ public class RegisterActivity extends AppCompatActivity {
     private TextInputLayout mConfirmPass;
     private TextInputLayout mPin;
 
-    //Button to Register
+    // Button to Register
     private Button mRegisterButton;
 
-    //Progress Bar
+    // Progress Bar
     private ProgressDialog mRegProgress;
 
-    //Toolbar
-    private Toolbar mToolbar;
-
-    //Firebase Auth
+    // Firebase
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
 
-    //When it is initially 0, if it is valid, it will change to 1.
+    // When it is initially 0, if it is valid, it will change to 1.
     private int PASSWORD_STATE = 0;
     private int CONFIRM_PASSWORD_STATE = 0;
     private int EMAIL_STATE = 0;
@@ -69,22 +66,27 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        //TextView for Sign In Page
+        // TextView button for sign in page
         mSignIn = (TextView)findViewById(R.id.reg_haveAccount2);
 
-        //Android Fields
+        // Android Fields
         mDisplayName = (TextInputLayout) findViewById(R.id.reg_display_name);
         mEmail = (TextInputLayout) findViewById(R.id.reg_email);
         mPassword = (TextInputLayout) findViewById(R.id.reg_password);
         mConfirmPass = (TextInputLayout) findViewById(R.id.reg_confirm_password);
         mPin = (TextInputLayout) findViewById(R.id.reg_pin);
         mRegisterButton = (Button) findViewById(R.id.reg_create_btn);
-
         EditText mPasswordWatcher = (EditText)findViewById(R.id.reg_password_editText);
         EditText mConfirmPasswordWatcher = (EditText)findViewById(R.id.reg_confirm_password_editText);
         EditText mUsernameWatcher = (EditText)findViewById(R.id.reg_display_name_editText);
         EditText mEmailWatcher = (EditText)findViewById(R.id.reg_email_editText);
         EditText mPinWatcher = (EditText)findViewById(R.id.reg_pin_editText);
+
+        // Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
+
+        // Progress bar
+        mRegProgress = new ProgressDialog(this);
 
         mSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,115 +95,79 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        /*
-                HELPING USER VALIDATE USERNAME
-         */
+        // Helps you validate a username
         mUsernameWatcher.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
             }
-
             @Override
             public void afterTextChanged(Editable s) {
-
                 if (!s.toString().isEmpty()) {
-
                     String username = mDisplayName.getEditText().getText().toString();
-
                     int counter = 0;
-
                     for (int i = 0; i < username.length(); i++) {
-
-                        if(isSpecialCharacter(username.charAt(i)) || username.length() < 4) {//Counts number of '@' symbols
-                            //mDisplayName.setError("Special characters not allowed");
-                            counter++;
+                        // Counts number of '@' symbols
+                        if(isSpecialCharacter(username.charAt(i)) || username.length() < 4) {
+                            counter ++;
                         }
-
                     }
-
-                    if(counter != 0){//INVALID
+                    // Invalid
+                    if(counter != 0){
                         USERNAME_STATE = 0;
-                        mDisplayName
-                                .setError("At least 4 characters long | No special characters");
-                    }else{ //VALID
+                        mDisplayName.setError("At least 4 characters long | No special characters");
+                    }
+                    // Valid
+                    else{
                         USERNAME_STATE = 1;
                         mDisplayName.setError("");
                     }
-
                     Log.d("USERNAME_STATE", "State: " + USERNAME_STATE);
-
-                }else{
+                }
+                else {
                     mDisplayName.setError("");
                     USERNAME_STATE = 0;
                 }
-
             }
         });
 
-
-
-
-        /*
-                HELPING USER VALIDATE PASSWORD
-         */
+        // Helping use validate password
         mPasswordWatcher.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
             }
-
             @Override
             public void afterTextChanged(Editable s) {
-
-                /*
-                If the edit text is not empty
-                 */
                 if (!s.toString().isEmpty()) {
-
                     String password = mPassword.getEditText().getText().toString();
-
                     int countNumbers = 0;
                     int countLetter = 0;
                     int countSpecialChar = 0;
-
                     for (int i = 0; i < password.length(); i++) {
-
                         if (Character.isDigit(password.charAt(i))) {
-
                             countNumbers++;
-
                         }
-                        else if(Character.isLetter(password.charAt(i))){
-
+                        else if(Character.isLetter(password.charAt(i))) {
                             countLetter++;
-
                         }
-                        else if(isSpecialCharacter(password.charAt(i))){
-
+                        else if(isSpecialCharacter(password.charAt(i))) {
                             countSpecialChar++;
-
                         }
-                        else if(Character.isWhitespace(password.charAt(i))){
-
+                        else if(Character.isWhitespace(password.charAt(i))) {
                             mPassword.setError("Make sure there are no spaces.");
                             PASSWORD_STATE = 0;
-
                         }
-
                     }
-
-                    if(countLetter == 0 && countNumbers == 0 && countSpecialChar == 0){
+                    if(countLetter == 0 && countNumbers == 0 && countSpecialChar == 0) {
                         mPassword.setError("Enter Password");
                         PASSWORD_STATE = 0;
                     }
@@ -217,191 +183,130 @@ public class RegisterActivity extends AppCompatActivity {
                         mPassword.setError("Strong");
                         PASSWORD_STATE = 1;
                     }
-
                     Log.d("PASSWORD_STATE", "State: " + PASSWORD_STATE);
-
-                }else{
+                }
+                else {
                     mPassword.setError("");
                     PASSWORD_STATE = 0;
                 }
-
             }
         });
 
-
-
-
-        /*
-                HELPING USER VALIDATE CONFIRM PASSWORD
-         */
+        // Help validate the users password
         mConfirmPasswordWatcher.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
             }
-
             @Override
             public void afterTextChanged(Editable s) {
-
-                /*
-                If the edit text is not empty
-                 */
                 if (!s.toString().isEmpty()) {
-
                     String password = mPassword.getEditText().getText().toString();
-
                     String confirm_password = mConfirmPass.getEditText().getText().toString();
-
-                    if(!confirm_password.equals(password)){//INVALID
-
+                    // Invalid
+                    if(!confirm_password.equals(password)) {
                         mConfirmPass.setError("Passwords do not match");
                         CONFIRM_PASSWORD_STATE = 0;
-
-                    }else{//VALID
-
+                    }
+                    // Valid
+                    else {
                         mConfirmPass.setError("");
                         CONFIRM_PASSWORD_STATE = 1;
-
                     }
-
                     Log.d("CONFIRM_PASSWORD_STATE", "State: " + CONFIRM_PASSWORD_STATE);
-
-                }else{//Empty Text
+                }
+                // Empty Text
+                else{
                     mPassword.setError("");
                     CONFIRM_PASSWORD_STATE = 0;
                 }
-
             }
         });
 
-
-
-
-        /*
-                HELPING USER VALIDATE EMAIL
-         */
+        // Help user validate email
         mEmailWatcher.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
             }
-
             @Override
             public void afterTextChanged(Editable s) {
-
                 if (!s.toString().isEmpty()) {
-
                     String email = mEmail.getEditText().getText().toString();
-
                     int countAtSymbol = 0;
-
                     for (int i = 0; i < email.length(); i++) {
-
-                        if(email.charAt(i) == '@')//Counts number of '@' symbols
+                        // Counts number of '@' symbols
+                        if(email.charAt(i) == '@')
                             countAtSymbol++;
-
                     }
-
+                    // Invalid
                     if(countAtSymbol != 1){
                         mEmail.setError("Please enter a valid Email");
                         EMAIL_STATE = 0;
-                    }else{ //VALID
+                    }
+                    // Valid
+                    else {
                         EMAIL_STATE = 1;
                         mEmail.setError("");
                     }
-
                     Log.d("EMAIL_STATE", "State: " + EMAIL_STATE);
-
-                }else{
-
+                }
+                else {
                     mEmail.setError("");
                     EMAIL_STATE = 0;
-
                 }
-
             }
         });
 
-
-
-        /*
-                HELPING USER VALIDATE PIN
-         */
+        // Helping user validate pin
         mPinWatcher.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
             }
-
             @Override
             public void afterTextChanged(Editable s) {
-
                 if (!s.toString().isEmpty()) {
-
                     String pin = mPin.getEditText().getText().toString();
-
-                    if(pin.length() < 4){
-
+                    if(pin.length() < 4) {
                         mPin.setError("Pin must be 4 characters long");
                         PIN_STATE = 0;
-
-                    }else{ //VALID
-
+                    }
+                    // Valid
+                    else {
                         PIN_STATE = 1;
                         mPin.setError("");
-
                     }
-
                     Log.d("PIN_STATE", "State: " + PIN_STATE);
-
-                }else{
+                }
+                else {
                     mPin.setError("");
                     PIN_STATE = 0;
                 }
-
             }
-
         });
 
-
-
-
-        //Progress bar
-        mRegProgress = new ProgressDialog(this);
-
-        //Firebase Auth
-        mAuth = FirebaseAuth.getInstance();
-
-
-
-        /*
-                WHEN THEY CLICK REGISTER
-         */
+        // When REGISTER Button is clicked
         mRegisterButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
+                // All fields success
                 if(USERNAME_STATE == 1 && EMAIL_STATE == 1 && PASSWORD_STATE == 1
-                        && CONFIRM_PASSWORD_STATE == 1 && PIN_STATE == 1){ //All fields success
-
-                    //Check to make sure the username is not already taken
+                        && CONFIRM_PASSWORD_STATE == 1 && PIN_STATE == 1) {
+                    // Check to make sure the username is not already taken
                     String display_name = mDisplayName.getEditText().getText().toString();
-
                     String email = mEmail.getEditText().getText().toString();
                     String password = mPassword.getEditText().getText().toString();
                     String pin = mPin.getEditText().getText().toString();
@@ -413,13 +318,13 @@ public class RegisterActivity extends AppCompatActivity {
 
                     register_user(display_name, email, password, pin);
                 }
-                else{ //If there was an error
+                // If there was an error
+                else {
                     Toast.makeText(RegisterActivity.this,
                             "Make sure all fields are filled in correctly", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
     }
 
     /*Look into specific error calls in firebase for this registration process and call them based on the error.
@@ -434,16 +339,13 @@ public class RegisterActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("Confidential", "createUserWithEmail:success");
-
-                            //Getting the user's unique UID
+                            // Getting the user's unique UID
                             FirebaseUser current_user = FirebaseAuth.getInstance().getCurrentUser();
-
                             String uid = current_user.getUid();
-                            //Getting the token for the Notifications
+                            // Getting the token for the Notifications
                             String deviceToken = FirebaseInstanceId.getInstance().getToken();
 
                             mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(uid);
-
                             //This HashMap is creating fields in the database
                             HashMap<String, String> userMap = new HashMap<>();
                             userMap.put("device_token",deviceToken);
@@ -458,20 +360,15 @@ public class RegisterActivity extends AppCompatActivity {
                             mDatabase.setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-
                                     if(task.isSuccessful()){
                                         mRegProgress.dismiss();
-
                                         Intent mainIntent = new Intent(RegisterActivity.this, MainActivity.class);
                                         startActivity(mainIntent);
                                         finish(); // We do not want the back button to bring us back to register
                                     }
-
                                 }
                             });
-
                             FirebaseUser user = mAuth.getCurrentUser();
-
                         }
                         else {
                             // If sign in fails, display a message to the user.
@@ -481,16 +378,9 @@ public class RegisterActivity extends AppCompatActivity {
                         }
                     }
                 });
-
     }
 
-
-    /*
-    Checks for a special character
-     */
-
-    private static boolean isSpecialCharacter(Character c)
-    {
+    private static boolean isSpecialCharacter(Character c) {
         return c != 32 &&	//not a space
                 (c < 48 || c > 57) && 	//not a digit
                 (c < 65 || c > 90) && 	//not an uppercase alphabet
@@ -502,5 +392,4 @@ public class RegisterActivity extends AppCompatActivity {
         startActivity(startIntent);
         finish();
     }
-
 }

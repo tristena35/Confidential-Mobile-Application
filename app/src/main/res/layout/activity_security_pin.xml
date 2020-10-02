@@ -44,15 +44,17 @@
 
     <Button
         android:id="@+id/security_ok_btn"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="40dp"
+        android:layout_marginEnd="32dp"
         android:background="@drawable/rounded_button_red"
-        android:text="@string/ok"
+        android:text="@string/enter"
         android:textColor="@color/White"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/security_pin_box"/>
+        app:layout_constraintStart_toEndOf="@+id/security_pin_box"
+        app:layout_constraintTop_toBottomOf="@+id/security_pin_box" />
 
     <TextView
         android:id="@+id/security_log_out"

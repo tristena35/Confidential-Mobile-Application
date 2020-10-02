@@ -18,7 +18,9 @@
             android:id="@+id/main_page_toolbar"
             layout="@layout/app_bar_layout"/>
 
+        <!--
         <View style="@style/Divider"/>
+        -->
 
         <android.support.design.widget.TabLayout
             android:id="@+id/main_tabs"

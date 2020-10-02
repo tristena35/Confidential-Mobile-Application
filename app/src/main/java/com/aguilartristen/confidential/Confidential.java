@@ -16,22 +16,24 @@ import com.squareup.picasso.Picasso;
  * Created by trist on 3/19/2018.
  */
 
-public class Confidential extends Application { //Offline Capabilities Class. Must Mention In Android Manifest
+// Offline Capabilities Class. Must Mention In Android Manifest
+public class Confidential extends Application {
 
-    //DatabaseRef to the Users Database
+    // DatabaseRef to the Users Database
     private DatabaseReference mUserDatabase;
-    //Firebase Auth Object
+    // Firebase Auth Object
     private FirebaseAuth mAuth;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        //Enabling Firebase Offline capabilities
+        // Enabling Firebase Offline capabilities
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
-        /*PICASSO
-        These lines of code will allow us to retrieve the image and use it even in offline capabilities
+        /*
+            PICASSO:
+            These lines of code will allow us to retrieve the image and use it even in offline capabilities
          */
         Picasso.Builder builder = new Picasso.Builder(this);
         builder.downloader(new OkHttpDownloader(this, Integer.MAX_VALUE));
@@ -42,35 +44,25 @@ public class Confidential extends Application { //Offline Capabilities Class. Mu
 
         mAuth = FirebaseAuth.getInstance();
         if(mAuth.getCurrentUser() != null) {
-
             mUserDatabase = FirebaseDatabase.getInstance()
                     .getReference().child("Users").child(mAuth.getCurrentUser().getUid());
-
             mUserDatabase.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-
                     if (dataSnapshot != null) {
-
-                        //We use the TIMESTAMP directly because the onDisconnect may take some time to set it to false
+                        // We use the TIMESTAMP directly because the onDisconnect may take some time to set it to false
                         mUserDatabase.child("online").onDisconnect().setValue(ServerValue.TIMESTAMP);
                         /*
-                        This line should match the one in the MainActivity, and shares same functionality
-
-                        mUserDatabase.child("lastSeen").setValue(ServerValue.TIMESTAMP);
+                            This line should match the one in the MainActivity, and shares same functionality
+                            mUserDatabase.child("lastSeen").setValue(ServerValue.TIMESTAMP);
                          */
-
                     }
-
                 }
-
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
 
                 }
             });
-
         }
-
     }
 }

@@ -55,54 +55,54 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ConfidentialChatActivity extends AppCompatActivity {
 
-    //User we are chatting with
+    // User we are chatting with
     private String mConfidentialChatUser;
 
-    //Toolbar
+    // Toolbar
     private Toolbar mChatToolbar;
 
-    //This is called the root ref because we are going to use this one reference for the whole database.
+    // This is called the root ref because we are going to use this one reference for the whole database.
     private DatabaseReference mRootRef;
 
-    //This Objects are all related to the chat_custom_bar layout
+    // This Objects are all related to the chat_custom_bar layout
     private TextView mTitleView;
     private CircleImageView mProfileImage;
 
-    //Firebase Auth Object
+    // Firebase Auth Object
     private FirebaseAuth mAuth;
-    //String Variable to hold current user'S ID
+    // String Variable to hold current user'S ID
     private String mCurrentUserID;
 
-    //Objects on bottom part of ChatActivity
+    // Objects on bottom part of ChatActivity
     private ImageButton mChatSendButton;
     private ImageButton mChatAddButton;
     private EditText mChatMessageView;
 
-    //List of Messages
+    // List of Messages
     private RecyclerView mMessagesList;
 
-    //Objects responsible for retrieving and displaying messages
+    // Objects responsible for retrieving and displaying messages
     private final List<Messages> messageList = new ArrayList<>(); //List is parent of ArrayList
     private LinearLayoutManager mLinearLayout;
     private ConfidentialMessageAdapter mConfidentialMessageAdapter;
 
-    //These variables are responsible for messages loaded at once
-    //private static final int TOTAL_ITEMS_TO_LOAD = 10;
+    // These variables are responsible for messages loaded at once
+    // private static final int TOTAL_ITEMS_TO_LOAD = 10;
     private int mCurrentPage = 1;
 
-    //Getting message length for fading functions
+    // Getting message length for fading functions
     int messageLength = 0;
 
-    //Image for Top of Chat
+    // Image for Top of Chat
     private String topImage;
 
-    //Activity came from
+    // Activity came from
     private String prevActivity;
 
-    //Timer TextView
-    //private TextView timerText;
+    // Timer TextView
+    // private TextView timerText;
 
-    //For sending images
+    // For sending images
     private static final int GALLERY_PICK = 1;
 
     // Storage Firebase
@@ -116,126 +116,97 @@ public class ConfidentialChatActivity extends AppCompatActivity {
         //---- Setting Up Toolbar -----//
         mChatToolbar = (Toolbar) findViewById(R.id.confidential_chat_app_bar);
         setSupportActionBar(mChatToolbar);
-
         ActionBar actionBar = getSupportActionBar();
-
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowCustomEnabled(true);
-        //actionBar.setHomeAsUpIndicator(R.drawable.red_back_arrow);
+        // This is where we inflate our layout as of now with the new one with the image
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View action_bar_view = inflater.inflate(R.layout.confidential_chat_custom_bar, null);
+        actionBar.setCustomView(action_bar_view);
 
         mRootRef = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         mCurrentUserID = mAuth.getCurrentUser().getUid();
 
-        //Extras
+        // Extras
         mConfidentialChatUser = getIntent().getStringExtra("user_id");
         String userName = getIntent().getStringExtra("user_name_confidential");
         topImage = getIntent().getStringExtra("top_image");
         prevActivity = getIntent().getStringExtra("activity");
 
-        //This is where we inflate our layout as of now with the new one with the image
-        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View action_bar_view = inflater.inflate(R.layout.confidential_chat_custom_bar, null);
-
-        actionBar.setCustomView(action_bar_view);
-
         // ---- Custom Action bar Items ----
-
         mTitleView = (TextView) findViewById(R.id.confidential_custom_chat_bar_title);
         mProfileImage = (CircleImageView) findViewById(R.id.confidential_custom_chat_bar_image);
 
-        //--Top Image For Other Chat User--//
+        // Top Image For Other Chat User
         Picasso.with(ConfidentialChatActivity.this).load(topImage).placeholder(R.drawable.user_icon).into(mProfileImage);
 
         // ----- Linear Layout on the bottom of the page -----
         mChatAddButton = (ImageButton) findViewById(R.id.confidential_chat_add_btn);
         mChatSendButton = (ImageButton) findViewById(R.id.confidential_chat_send_btn);
-
         mChatMessageView = (EditText) findViewById(R.id.confidential_chat_message_view);
         mChatMessageView.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
 
+        // Adapter
         mConfidentialMessageAdapter = new ConfidentialMessageAdapter(messageList);
 
         mMessagesList = (RecyclerView) findViewById(R.id.confidential_chat_messages_list);
         mLinearLayout = new LinearLayoutManager(this);
-
         mMessagesList.setHasFixedSize(true);
         mMessagesList.setLayoutManager(mLinearLayout);
-
         mMessagesList.setAdapter(mConfidentialMessageAdapter);
 
         mRootRef.child("Chat_Confidential").child(mCurrentUserID).child(mConfidentialChatUser).child("seen").setValue(true);
 
         //------- IMAGE STORAGE ---------
         mImageStorage = FirebaseStorage.getInstance().getReference();
-
         mTitleView.setText(userName);
 
         //Creates a new database for all open confidential chats
         mRootRef.child("Chat_Confidential").child(mCurrentUserID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
                 if (!dataSnapshot.hasChild(mConfidentialChatUser)) {
-
+                    // Seen Map
                     Map chatAddMap = new HashMap();
                     chatAddMap.put("seen", false);
                     chatAddMap.put("timestamp", ServerValue.TIMESTAMP);
-
+                    // Conversation map
                     Map chatUserMap = new HashMap();
                     chatUserMap.put("Chat_Confidential/" + mCurrentUserID + "/" + mConfidentialChatUser, chatAddMap);
                     chatUserMap.put("Chat_Confidential/" + mConfidentialChatUser + "/" + mCurrentUserID, chatAddMap);
-
                     mRootRef.updateChildren(chatUserMap, new DatabaseReference.CompletionListener() {
                         @Override
                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-
                             if (databaseError != null) {
-
                                 Log.d("CONFIDENTIAL_CHAT_LOG", databaseError.getMessage().toString());
-
                             }
-
                         }
                     });
-
                 }
-
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
-
         });
-
-        //loadMessage();
-
         // ---- Onclick Listener for Sending Message ------ //
-
         mChatSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 sendMessage();
-
             }
         });
 
         mChatAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent galleryIntent = new Intent();
                 galleryIntent.setType("image/*");
                 galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-
                 startActivityForResult(Intent.createChooser(galleryIntent, "SELECT IMAGE"), GALLERY_PICK);
-
             }
         });
-
     }
 
     @Override

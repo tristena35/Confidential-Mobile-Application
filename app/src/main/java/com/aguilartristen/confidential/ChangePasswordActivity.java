@@ -30,22 +30,21 @@ import java.util.HashMap;
 
 public class ChangePasswordActivity extends AppCompatActivity {
 
-    //TextInputLayouts Entered
+    // TextInputLayouts Entered
     private TextInputLayout mCurrentPassword;
     private TextInputLayout mNewPassword;
     private TextInputLayout mConfirmPassword;
 
-    //Button to Register
+    // Button to Register
     private Button mUpdateButton;
 
-
-    //Progress Bar
+    // Progress Bar
     private ProgressDialog mRegProgress;
 
-    //Toolbar
+    // Toolbar
     private Toolbar mToolbar;
 
-    //Firebase Auth
+    // Firebase Auth
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
 
@@ -54,35 +53,23 @@ public class ChangePasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
 
-        //Toolbar Set
+        // Toolbar Set
         mToolbar = (Toolbar) findViewById(R.id.change_password_toolbar);
         setSupportActionBar(mToolbar);
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        //This is where we inflate our layout as of now with the new one with the image
+        // This is where we inflate our layout as of now with the new one with the image
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View action_bar_view = inflater.inflate(R.layout.change_password_custom_bar, null);
-
         ActionBar actionBar = getSupportActionBar();
-
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowCustomEnabled(true);
-
         actionBar.setCustomView(action_bar_view);
-
 
         //Android Fields
         mCurrentPassword = (TextInputLayout) findViewById(R.id.change_password_current);
         mNewPassword = (TextInputLayout) findViewById(R.id.change_password_new);
         mConfirmPassword = (TextInputLayout) findViewById(R.id.change_password_verify);
-
         mUpdateButton = (Button) findViewById(R.id.change_password_btn);
-
-        //Progress bar
-        mRegProgress = new ProgressDialog(this);
-
-        //Firebase Auth
-        mAuth = FirebaseAuth.getInstance();
 
         mUpdateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +78,11 @@ public class ChangePasswordActivity extends AppCompatActivity {
             }
         });
 
+        // Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
+
+        // Progress bar
+        mRegProgress = new ProgressDialog(this);
     }
 
     @Override
@@ -102,5 +94,4 @@ public class ChangePasswordActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 }

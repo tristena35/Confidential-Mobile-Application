@@ -25,23 +25,25 @@ import com.google.firebase.database.ValueEventListener;
 
 public class ChangeUsernameActivity extends AppCompatActivity {
 
-    //TextInputLayouts Entered
+    // TextViews
     private TextView mCurrentUsername;
+
+    // TextInputLayouts
     private TextInputLayout mNewUsername;
 
-    //Button to Register
+    // Button to Register
     private Button mUpdateButton;
 
-    //Refers to the Database of the chosen user
+    // Refers to the Database of the chosen user
     private DatabaseReference mUserDatabase;
 
-    //Progress Bar
+    // Progress Bar
     private ProgressDialog mRegProgress;
 
-    //Toolbar
+    // Toolbar
     private Toolbar mToolbar;
 
-    //Firebase Auth
+    // Firebase Auth
     private FirebaseAuth mAuth;
     private DatabaseReference mAllUsersDatabase;
 
@@ -52,51 +54,42 @@ public class ChangeUsernameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_username);
 
-        //Toolbar Set
+        // Toolbar Set
         mToolbar = (Toolbar) findViewById(R.id.change_username_toolbar);
         setSupportActionBar(mToolbar);
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        //This is where we inflate our layout as of now with the new one with the image
+        // This is where we inflate our layout as of now with the new one with the image
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View action_bar_view = inflater.inflate(R.layout.change_username_custom_bar, null);
-
         ActionBar actionBar = getSupportActionBar();
-
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowCustomEnabled(true);
-
         actionBar.setCustomView(action_bar_view);
 
-        //Gets current user id of user
+        // Gets current user id of user
         CurrentUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        //Firebase Database Objects
+        // Firebase Database Objects
         mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(CurrentUserID);
         mAllUsersDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
 
-        //Android Fields
+        // Android Fields
         mCurrentUsername = (TextView) findViewById(R.id.change_username_current);
         mNewUsername = (TextInputLayout) findViewById(R.id.change_username_new);
         mUpdateButton = (Button) findViewById(R.id.change_username_btn);
 
-        //----GETTING CURRENT USERNAME----
+        // Getting current username
         mUserDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
                 String currentUsername = dataSnapshot.child("name").getValue().toString();
-
                 mCurrentUsername.setText(currentUsername);
-
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
         });
-
 
         //Progress bar
         mRegProgress = new ProgressDialog(this);
@@ -107,26 +100,19 @@ public class ChangeUsernameActivity extends AppCompatActivity {
         mUpdateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                //----DO A CHECK TO MAKE SURE USERNAME ISN'T TAKEN
-
+                // Check that the username has not been entered
                 String usernameEntered = mNewUsername.getEditText().getText().toString();
-
                 if(!usernameEntered.isEmpty()){
-
                     mUserDatabase.child("name").setValue(usernameEntered);
                     mNewUsername.setError("");
-                    Toast.makeText(ChangeUsernameActivity.this,"Username successfully changed",Toast.LENGTH_SHORT).show();
-
-                }else{
-
-                    mNewUsername.setError("Please enter a valid Username");
-
+                    Toast.makeText(ChangeUsernameActivity.this,"Username successfully changed",
+                            Toast.LENGTH_SHORT).show();
                 }
-
+                else {
+                    mNewUsername.setError("Please enter a valid Username");
+                }
             }
         });
-
     }
 
     @Override
@@ -138,6 +124,4 @@ public class ChangeUsernameActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
 }
