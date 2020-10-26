@@ -11,7 +11,7 @@
 
 **Login Features (Security Pin, Fingerprint Login)**
 <img src = "Confidential%20ScreenShots/Confidential%20Pin%20Page.png" width="150" height="350">
-<img src = "Confidential%20ScreenShots/Confidential%20FingerPrint%20Page.jpg" width="150" height="350">
+<img src = "Confidential%20ScreenShots/Confidential%20FingerPrint%20Page.png" width="150" height="350">
 
 *This is the Login Page of the application where the user is already logged in, but must verify that it is their account and is presented with a pin log in or using their fingerprint for authentication.*  
 
